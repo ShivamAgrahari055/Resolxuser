@@ -1,0 +1,12 @@
+
+> resolx@1.0.0 dev
+> next dev
+
+▲ Next.js 16.4.3 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.149.163:3000
+- Environments: .env.local
+✓ Ready in 3.2s
+✓ Running next.config.js took 146ms
+
+Terminate batch job (Y/N)? [?25h
