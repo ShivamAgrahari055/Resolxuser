@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Nav from '@/components/Nav';
@@ -9,6 +9,14 @@ import { Button } from '@/components/ui/Button';
 import { Shield, ArrowLeft, ArrowRight, Filter, Search, Loader2 } from 'lucide-react';
 
 export default function StaffGrievancesList() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-brand-navy text-slate-400">Loading...</div>}>
+      <StaffGrievancesContent />
+    </Suspense>
+  );
+}
+
+function StaffGrievancesContent() {
   const router = useRouter();
   const sp = useSearchParams();
   const [grievances, setGrievances] = useState([]);
