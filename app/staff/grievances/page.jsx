@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useSearchParams, useNavigate } from 'next/navigation';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
-import { Button, Input } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { Shield, ArrowLeft, ArrowRight, Filter, Search, Loader2 } from 'lucide-react';
 
 export default function StaffGrievancesList() {
