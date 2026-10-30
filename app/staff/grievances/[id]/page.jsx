@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
-import { Button } from '@/components/ui/Button';
+import { Button ,Input} from '@/components/ui/Button';
 import { Shield, ArrowRight } from 'lucide-react';
 
 export default function StaffGrievanceDetails() {
@@ -56,7 +56,7 @@ export default function StaffGrievanceDetails() {
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
               <div><span className="text-xs uppercase tracking-wider text-slate-400">Status</span><span className="text-sm font-medium {statusMap[grievance.status || '']} rounded px-2 py-0.5>{grievance.status?.replace('_', ' ') || ''}</span></div>
-              <div><span className="text-xs uppercase tracking-wider text-slate-400">Category</span><span className="text-sm text-slate-300">{grievance.category}</span></div>
+              <div><span className="text-xs uppercase tracking-wider text-slate-400">Category</span><span className="text-sm text-slate-300">{grievance?.category || ''}</span></div>
               <div><span className="text-xs uppercase tracking-wider text-slate-400">Assigned</span><span className="text-sm font-medium text-slate-300">{grievance.assignedTo ? grievance.assignedTo.name : 'Unassigned'}</span></div>
               <div><span className="text-xs uppercase tracking-wider text-slate-400">Student</span><span className="text-sm font-medium text-slate-300">{grievance.student?.name || 'Unknown'}</span></div>
             </div>
