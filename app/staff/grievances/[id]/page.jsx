@@ -55,7 +55,7 @@ export default function StaffGrievanceDetails() {
             <p className="text-slate-400 mt-1">#{grievance.id}</p>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              <div><span className="text-xs uppercase tracking-wider text-slate-400">Status</span><span className="text-sm font-medium {statusMap[grievance.status || '']} rounded px-2 py-0.5>{grievance.status?.replace('_', ' ') || ''}</span></div>
+              <div><span className="text-xs uppercase tracking-wider text-slate-400">Status</span><span className={`text-sm font-medium ${statusMap[grievance.status || '']} rounded px-2 py-0.5`}>{grievance.status?.replace('_', ' ') || ''}</span></div>
               <div><span className="text-xs uppercase tracking-wider text-slate-400">Category</span><span className="text-sm text-slate-300">{grievance?.category || ''}</span></div>
               <div><span className="text-xs uppercase tracking-wider text-slate-400">Assigned</span><span className="text-sm font-medium text-slate-300">{grievance.assignedTo ? grievance.assignedTo.name : 'Unassigned'}</span></div>
               <div><span className="text-xs uppercase tracking-wider text-slate-400">Student</span><span className="text-sm font-medium text-slate-300">{grievance.student?.name || 'Unknown'}</span></div>
