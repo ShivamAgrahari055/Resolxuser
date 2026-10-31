@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { connect } from '@/lib/db.js';
 import { getSessionUser } from '@/lib/auth.js';
+import Session from '@/models/Session.js';
+import Grievance from '@/models/Grievance.js';
 import { buildEventPayload, computeEventHash } from '@/lib/audit.js';
 import { verifySessionToken } from '@/lib/session.js';
 
