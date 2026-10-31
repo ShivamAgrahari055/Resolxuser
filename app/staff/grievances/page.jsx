@@ -45,7 +45,7 @@ function StaffGrievancesContent() {
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6 mb-8">
             <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
-              <div><Input placeholder="Search..." className="w-full rounded-md border border-white/30 bg-white/5 px-3 py-2 text-sm" /></div>
+              <div><input placeholder="Search..." className="w-full rounded-md border border-white/30 bg-white/5 px-3 py-2 text-sm" /></div>
               <div>
                 <select className="w-full rounded-md border border-white/30 bg-white/5 px-3 py-2 text-sm">
                   <option value="">Status</option>

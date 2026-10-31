@@ -17,25 +17,44 @@ export default function StudentDashboard() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    Promise.all([
-      fetch('/api/auth/session').then(r => r.json()),
-      fetch('/api/student/notifications?limit=5').then(r => r.json()),
-      fetch('/api/student/grievances?limit=5').then(r => r.json()),
-    ])
-      .then(([sessionRes, notificationsRes, grievancesRes]) => {
-        if (sessionRes.authenticated) {
-          setStats(grievancesRes.pagination);
-          setNotifications(notificationsRes.items);
-        } else {
+    let cancelled = false;
+
+    async function loadDashboard() {
+      setLoading(true);
+      setError('');
+
+      try {
+        const [sessionRes, notificationsRes, grievancesRes] = await Promise.allSettled([
+          fetch('/api/auth/session').then(r => r.json()),
+          fetch('/api/student/notifications?limit=5').then(r => r.json()),
+          fetch('/api/student/grievances?limit=5').then(r => r.json()),
+        ]);
+
+        const session = sessionRes.status === 'fulfilled' ? sessionRes.value : null;
+        const notifications = notificationsRes.status === 'fulfilled' ? notificationsRes.value : { items: [] };
+        const grievances = grievancesRes.status === 'fulfilled' ? grievancesRes.value : { items: [], pagination: {} };
+
+        if (!session || !session.authenticated) {
           router.push('/login');
+          return;
         }
-      })
-      .catch(() => {
+
+        setStats(grievances.pagination);
+        setNotifications(notifications.items || []);
+      } catch {
         setError('Unable to load dashboard. Please refresh and try again.');
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    }
+
+    loadDashboard();
+
+    return () => {
+      cancelled = true;
+    };
   }, [router]);
 
   const unreadCount = notifications.filter(n => !n.read).length;
