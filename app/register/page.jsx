@@ -74,16 +74,17 @@ export default function RegisterPage() {
           )}
 
             <form noValidate className="space-y-5" onSubmit={handleSubmit}>
-              <FormField label="Full name" type="text" placeholder="e.g. Aryan Singh" />
+              <FormField label="Full name" name="name" type="text" placeholder="e.g. Aryan Singh" />
               <FormField
                 label="College email"
+  name="email"
                 type="email"
                 placeholder="name@mnnit.ac.in"
                 helper="Must be an MNNIT Allahabad email address"
               />
-              <FormField label="Roll number" type="text" placeholder="e.g. 220001" helper="Your official roll number" />
-              <FormField label="Password" type="password" helper="At least 8 characters" />
-              <FormField label="Confirm password" type="password" />
+              <FormField label="Roll number" name="rollNumber" type="text" placeholder="e.g. 220001" helper="Your official roll number" />
+              <FormField label="Password" name="password" type="password" helper="At least 8 characters" />
+              <FormField label="Confirm password" name="confirmPassword" type="password" />
               <div className="flex items-start gap-2">
                 <input
                   type="checkbox"

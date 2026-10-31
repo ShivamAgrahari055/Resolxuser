@@ -68,11 +68,12 @@ export default function LoginPage() {
             <form noValidate className="space-y-5" onSubmit={handleSubmit}>
               <FormField
                 label="Email address"
+  name="email"
                 type="email"
                 placeholder="name@mnnit.ac.in"
                 helper="Use your college email address"
               />
-              <FormField label="Password" type="password" helper="At least 8 characters" />
+              <FormField label="Password" name="password" type="password" helper="At least 8 characters" />
               <div className="flex items-center justify-between">
                 <label className="flex items-center gap-2 text-sm text-slate-300 cursor-pointer select-none">
                   <input type="checkbox" className="rounded border-white/20 text-cyan-500 focus:ring-cyan-500 bg-transparent border" />

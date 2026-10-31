@@ -1,7 +1,7 @@
 ﻿import { useId } from 'react';
 import { AlertCircle, AlertTriangle } from 'lucide-react';
 
-export function FormField({ id, label, type = 'text', value, onChange, error, required = false, helper, as: Component = 'input', ...props }) {
+export function FormField({ id, name, label, type = 'text', value, onChange, error, required = false, helper, as: Component = 'input', ...props }) {
   const generatedId = useId();
   const fieldId = id || generatedId;
   const errorId = fieldId + '-error';
@@ -25,6 +25,7 @@ export function FormField({ id, label, type = 'text', value, onChange, error, re
           type: type,
           value: value,
           onChange: onChange,
+          name: name,
           required: required,
           'aria-invalid': hasError || undefined,
           'aria-required': required,
