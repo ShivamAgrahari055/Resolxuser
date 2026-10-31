@@ -1,5 +1,6 @@
 import { connect } from '@/lib/db';
 import User from '@/models/User';
+import Session from '@/models/Session';
 import { generateSessionToken, buildSessionExpiry, buildSessionCookie, COOKIE_NAME } from '@/lib/session';
 import { checkRateLimit } from '@/lib/rateLimit';
 import { GENERIC_AUTH_ERROR } from '@/lib/auth';
