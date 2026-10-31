@@ -25,9 +25,9 @@ export default function StudentDashboard() {
 
       try {
         const [sessionRes, notificationsRes, grievancesRes] = await Promise.allSettled([
-          fetch('/api/auth/session').then(r => r.json()),
-          fetch('/api/student/notifications?limit=5').then(r => r.json()),
-          fetch('/api/student/grievances?limit=5').then(r => r.json()),
+          fetch('/api/auth/session', { credentials: 'include' }).then(r => r.json()),
+          fetch('/api/student/notifications?limit=5', { credentials: 'include' }).then(r => r.json()),
+          fetch('/api/student/grievances?limit=5', { credentials: 'include' }).then(r => r.json()),
         ]);
 
         const session = sessionRes.status === 'fulfilled' ? sessionRes.value : null;

@@ -25,7 +25,7 @@ function StaffGrievancesContent() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    Promise.all([fetch('/api/auth/session').then(r=>r.json()), fetch('/api/staff/grievances?' + sp.toString()).then(r=>r.json())])
+    Promise.all([fetch('/api/auth/session', { credentials: 'include' }).then(r=>r.json()), fetch('/api/staff/grievances?' + sp.toString(), { credentials: 'include' }).then(r=>r.json())])
       .then(([s,g]) => { if(!s.authenticated||s.user?.role!=='STAFF'){router.push('/login');return;} setUser(s.user); if(g.error)setError(g.error);else setGrievances(g.items); })
       .catch(()=>setError('Unable to load.'))
       .finally(()=>setLoading(false));
