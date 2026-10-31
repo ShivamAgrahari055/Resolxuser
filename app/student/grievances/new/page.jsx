@@ -112,6 +112,8 @@ export default function NewGrievance() {
                     label="Title *"
                     name="title"
                     type="text"
+                    value={formData.title}
+                    onChange={handleChange}
                     placeholder="e.g. Wi-Fi outage in Block C"
                     required
                     autoComplete="off"
@@ -134,6 +136,8 @@ export default function NewGrievance() {
                   label="Description *"
                   name="description"
                   as="textarea"
+                  value={formData.description}
+                  onChange={handleChange}
                   rows={8}
                   placeholder="Describe the issue in detail — what happened, when, and what you need resolved."
                   required

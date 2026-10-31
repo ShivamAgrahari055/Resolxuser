@@ -30,7 +30,7 @@ export function FormField({ id, name, label, type = 'text', value, onChange, err
           'aria-invalid': hasError || undefined,
           'aria-required': required,
           'aria-describedby': hasError ? errorId : undefined,
-        } : { ...props })}
+        } : { ...props, name: name, value: value, onChange: onChange })}
         {...props}
       />
       {hasError && (
