@@ -37,7 +37,11 @@ export default function LoginPage() {
         return;
       }
 
-      router.push('/');
+      if (data.user?.role === 'STAFF') {
+        router.push('/staff');
+      } else {
+        router.push('/student');
+      }
     } catch {
       setError('Unable to sign in. Please try again.');
       setLoading(false);
