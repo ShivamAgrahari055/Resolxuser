@@ -106,6 +106,8 @@ export async function POST(req) {
   }
 
   try {
+    const createOpts = mongooseSession ? { session: mongooseSession } : {};
+
     const [grievance] = await Grievance.create(
       [
         {
@@ -116,7 +118,7 @@ export async function POST(req) {
           status: 'SUBMITTED',
         },
       ],
-      { session: mongooseSession }
+      createOpts
     );
 
     const grievanceId = grievance._id.toString();
@@ -157,7 +159,7 @@ export async function POST(req) {
           currentHash,
         },
       ],
-      { session: mongooseSession }
+      createOpts
     );
 
     if (transactionStarted) {
