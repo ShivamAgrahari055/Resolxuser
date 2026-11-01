@@ -20,19 +20,22 @@ function StaffGrievancesContent() {
   const router = useRouter();
   const sp = useSearchParams();
   const [grievances, setGrievances] = useState([]);
+  const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     Promise.all([fetch('/api/auth/session', { credentials: 'include' }).then(r=>r.json()), fetch('/api/staff/grievances?' + sp.toString(), { credentials: 'include' }).then(r=>r.json())])
-      .then(([s,g]) => { if(!s.authenticated||s.user?.role!=='STAFF'){router.push('/login');return;} setUser(s.user); if(g.error)setError(g.error);else setGrievances(g.items); })
+      .then(([s,g]) => { if(!s.authenticated||s.user?.role!=='STAFF'){router.push('/login');return;} setUser(s.user); if(g.error)setError(g.error);else { setGrievances(g.items); setStats(g.stats); } })
       .catch(()=>setError('Unable to load.'))
       .finally(()=>setLoading(false));
   }, [sp.toString(), router]);
 
   if(loading)return<div className="min-h-screen flex items-center justify-center bg-brand-navy text-slate-400">Loading...</div>;
   if(error)return<div className="min-h-screen flex items-center justify-center bg-brand-navy text-red-400">{error}</div>;
+
+  const s=stats||{grandTotal:0,submitted:0,underReview:0,assigned:0,inProgress:0,resolved:0,escalated:0,unassigned:0};
 
   return(
     <div className="min-h-screen flex flex-col bg-brand-navy">

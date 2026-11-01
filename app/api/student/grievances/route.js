@@ -3,6 +3,7 @@ import { connect } from '@/lib/db.js';
 import { getSessionUser } from '@/lib/auth.js';
 import Session from '@/models/Session.js';
 import Grievance from '@/models/Grievance.js';
+import AuditEvent from '@/models/AuditEvent.js';
 import { buildEventPayload, computeEventHash } from '@/lib/audit.js';
 import { verifySessionToken } from '@/lib/session.js';
 
@@ -217,6 +218,8 @@ export async function GET(req) {
   const search = (url.searchParams.get('search') || '').trim();
   const statusFilter = (url.searchParams.get('status') || '').trim().toUpperCase();
   const categoryFilter = (url.searchParams.get('category') || '').trim().toLowerCase();
+
+  await connect();
 
   const query = { studentId: user.id };
 

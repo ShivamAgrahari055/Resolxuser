@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
@@ -16,6 +16,13 @@ export default function NewGrievance() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -59,13 +66,10 @@ export default function NewGrievance() {
     setSuccess(true);
     setLoading(false);
 
-    // Redirect after a brief delay, or clear on next render
-    const timer = setTimeout(() => {
+    // Redirect after a brief delay
+    timerRef.current = setTimeout(() => {
       router.push(`/student/grievances/${data.id}`);
     }, 1500);
-
-    // Store the timer so we can clear it on unmount
-    return () => clearTimeout(timer);
   };
 
   return (

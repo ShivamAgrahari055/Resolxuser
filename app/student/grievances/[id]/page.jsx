@@ -22,34 +22,45 @@ export default function GrievanceDetail() {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    Promise.all([
-      fetch(`/api/student/grievances/${params.id}`),
-      fetch(`/api/student/notifications?limit=10`),
-    ])
-      .then(([gRes, nRes]) => {
+    let cancelled = false;
+
+    async function load() {
+      setLoading(true);
+      setError('');
+      setGrievance(null);
+
+      try {
+        const [gRes, nRes] = await Promise.all([
+          fetch(`/api/student/grievances/${params.id}`, { credentials: 'include' }),
+          fetch(`/api/student/notifications?limit=10`, { credentials: 'include' }),
+        ]);
+
         if (!gRes.ok) {
           if (gRes.status === 404) {
             setError('Grievance not found or you do not have access to it.');
           } else {
             setError('Failed to load grievance.');
           }
+          setLoading(false);
           return;
         }
-        const gData = gRes.json();
-        const nData = nRes.json();
-        return Promise.all([gData, nData]);
-      })
-      .then(([gData, nData]) => {
-        setGrievance(gData);
-        setNotifications(nData.items || []);
-        setActivity(gData.activity || []);
-      })
-      .catch(() => {
-        setError('Failed to load grievance. Please try again.');
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+
+        const [gData, nData] = await Promise.all([gRes.json(), nRes.json()]);
+        if (!cancelled) {
+          setGrievance(gData);
+          setNotifications(nData.items || []);
+          setActivity(gData.activity || []);
+        }
+      } catch {
+        if (!cancelled) {
+          setError('Failed to load grievance. Please try again.');
+          setLoading(false);
+        }
+      }
+    }
+
+    load();
+    return () => { cancelled = true; };
   }, [params.id]);
 
   if (loading && !grievance) {

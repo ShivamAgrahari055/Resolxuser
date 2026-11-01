@@ -26,7 +26,11 @@ export async function middleware(req) {
   if (pathname.startsWith('/api/')) {
     const cookieHeader = req.headers.get('cookie') || '';
     const cookies = Object.fromEntries(
-      cookieHeader.split(';').map((c) => c.trim().split('=')).filter((p) => p.length === 2)
+      cookieHeader.split(';').map((c) => {
+        const eq = c.indexOf('=');
+        if (eq === -1) return null;
+        return [c.slice(0, eq).trim(), c.slice(eq + 1)];
+      }).filter(Boolean)
     );
     const rawToken = cookies['resolx_session'];
 

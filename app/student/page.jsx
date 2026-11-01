@@ -12,6 +12,7 @@ import { Shield, FileText, AlertTriangle, CheckCircle, Clock, Eye } from 'lucide
 export default function StudentDashboard() {
   const router = useRouter();
   const [stats, setStats] = useState(null);
+  const [grievanceItems, setGrievanceItems] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -40,6 +41,7 @@ export default function StudentDashboard() {
         }
 
         setStats(grievances.pagination);
+        setGrievanceItems(grievances.items || []);
         setNotifications(notifications.items || []);
       } catch {
         setError('Unable to load dashboard. Please refresh and try again.');
@@ -136,7 +138,7 @@ export default function StudentDashboard() {
                   <span className="text-sm text-slate-400 uppercase tracking-wider">In Progress</span>
                 </div>
                 <p className="text-2xl font-bold text-white">
-                  {stats?.items?.filter(i => i.status !== 'RESOLVED').length || 0}
+                  {grievanceItems.filter(i => i.status !== 'RESOLVED').length || 0}
                 </p>
               </div>
               <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
@@ -147,7 +149,7 @@ export default function StudentDashboard() {
                   <span className="text-sm text-slate-400 uppercase tracking-wider">Resolved</span>
                 </div>
                 <p className="text-2xl font-bold text-white">
-                  {stats?.items?.filter(i => i.status === 'RESOLVED').length || 0}
+                  {grievanceItems.filter(i => i.status === 'RESOLVED').length || 0}
                 </p>
               </div>
             </div>

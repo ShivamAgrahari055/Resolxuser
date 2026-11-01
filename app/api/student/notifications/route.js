@@ -24,6 +24,8 @@ export async function GET(req) {
     );
   }
 
+  await connect();
+
   const url = new URL(req.url);
   const page = Math.max(1, parseInt(url.searchParams.get('page') || '1', 10));
   const limit = Math.min(Math.max(1, parseInt(url.searchParams.get('limit') || '20', 10)), 100);

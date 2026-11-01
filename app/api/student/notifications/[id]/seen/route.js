@@ -24,6 +24,8 @@ export async function POST(req, { params }) {
     );
   }
 
+  await connect();
+
   const notificationId = params.id;
   if (!notificationId) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 });

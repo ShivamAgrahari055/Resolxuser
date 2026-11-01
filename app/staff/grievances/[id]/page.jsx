@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, useParams } from 'next/navigation';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/Button';
@@ -11,7 +11,8 @@ import { Shield, ArrowRight } from 'lucide-react';
 export default function StaffGrievanceDetails() {
   const router = useRouter();
   const sp = useSearchParams();
-  const { id } = sp;
+  const params = useParams();
+  const id = params.id;
   const [grievance, setGrievance] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -19,14 +20,14 @@ export default function StaffGrievanceDetails() {
 
   useEffect(() => {
     Promise.all([
-      fetch('/api/auth/session').then((r) => r.json()),
-      fetch('/api/staff/grievances/' + id).then((r) => r.json()),
+      fetch('/api/auth/session', { credentials: 'include' }).then((r) => r.json()),
+      fetch('/api/staff/grievances/' + id, { credentials: 'include' }).then((r) => r.json()),
     ])
       .then(([s, g]) => {
         if (!s.authenticated || s.user?.role !== 'STAFF') { router.push('/login'); return; }
         setUser(s.user);
         if (g.error) { setError(g.error); }
-        else { setGrievance(g.grievance); setStatus(g.grievance?.status || ''); }
+        else { setGrievance(g.grievance); }
       })
       .catch(() => setError('Unable to load.'))
       .finally(() => setLoading(false));

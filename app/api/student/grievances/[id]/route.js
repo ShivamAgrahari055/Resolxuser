@@ -59,6 +59,8 @@ export async function GET(req, { params }) {
     );
   }
 
+  await connect();
+
   // Fetch only the student's own grievance.
   const grievance = await Grievance.findOne({ _id: grievanceId, studentId: user.id }).lean();
   if (!grievance) {
