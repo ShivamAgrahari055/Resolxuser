@@ -92,7 +92,15 @@ export async function POST(req) {
     );
   }
 
-  const conn = await connect();
+  let conn;
+  try {
+    conn = await connect();
+  } catch {
+    return NextResponse.json(
+      { error: 'Database error' },
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
   let mongooseSession = null;
   let transactionStarted = false;
   try {
@@ -163,7 +171,7 @@ export async function POST(req) {
     );
 
     if (transactionStarted) {
-      await conn.commitTransaction();
+      await mongooseSession.commitTransaction();
     }
 
     return NextResponse.json({
@@ -181,7 +189,7 @@ export async function POST(req) {
   } catch (error) {
     try {
       if (transactionStarted) {
-        await conn.abortTransaction();
+        await mongooseSession.abortTransaction();
       }
     } catch {
       // Ignore abort errors to avoid masking the original failure.

@@ -114,7 +114,7 @@ export async function PATCH(req, { params }) {
           title: 'Grievance Status Updated',
           body: `Your grievance "${grievance.title}" status changed to ${targetStatus}.${trimmedNote ? ` Note: ${trimmedNote}` : ''}`,
         }], { session: mSession });
-        if (txStarted) await conn.commitTransaction();
+        if (txStarted) await mSession.commitTransaction();
       } else {
         await grievance.save();
         await AuditEvent.create({
@@ -131,7 +131,7 @@ export async function PATCH(req, { params }) {
 
       return NextResponse.json({ id: grievance._id.toString(), status: grievance.status, version: grievance.version });
     } catch {
-      if (txStarted) { try { await conn.abortTransaction(); } catch {} }
+      if (txStarted) { try { await mSession.abortTransaction(); } catch {} }
       return NextResponse.json({ error: 'Failed to update grievance status' }, { status: 500 });
     }
   } catch {

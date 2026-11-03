@@ -119,7 +119,7 @@ export async function PATCH(req, { params }) {
             ? `Your grievance "${grievance.title}" has been assigned to ${targetStaff ? targetStaff.name : 'a staff member'}.`
             : `Your grievance "${grievance.title}" assignment has been updated.`,
         }], opts);
-        if (txStarted) await conn.commitTransaction();
+        if (txStarted) await mSession.commitTransaction();
       } else {
         await grievance.save();
         await AuditEvent.create({
@@ -151,7 +151,7 @@ export async function PATCH(req, { params }) {
         assignedTo: targetStaff ? { id: targetStaff._id.toString(), name: targetStaff.name, email: targetStaff.email } : null,
       });
     } catch {
-      if (txStarted) { try { await conn.abortTransaction(); } catch {} }
+      if (txStarted) { try { await mSession.abortTransaction(); } catch {} }
       return NextResponse.json({ error: 'Failed to assign grievance' }, { status: 500 });
     }
   } catch {
